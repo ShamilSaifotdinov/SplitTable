@@ -1,0 +1,24 @@
+include "defs.def"
+Declare Sub Main
+Dim InitTable as string
+Dim TableColumn as string
+Dim charCount as integer
+
+Sub Main
+	Print Chr$(12)
+	
+	InitTable = selectTable("таблицу с объектами")
+	Print "Таблица с объектами: " & InitTable
+	
+	TableColumn = selectColumn(InitTable)
+	Print "Строчное поле: " & TableColumn
+	
+	charCount = selectCount()
+	Print "Количество начальных символов: " & charCount
+	
+	Print ""
+	
+	Call SplitTable(InitTable, TableColumn, charCount)
+	
+	Note "Готово!"
+End Sub

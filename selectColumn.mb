@@ -1,0 +1,72 @@
+include "defs.def"
+
+Declare Sub getColumnList(byval tbName as string)
+
+Dim columnList() as String
+
+'Sub getColumnList
+'	Dim countTables as integer
+'	countTables = NumTables()
+'	
+'	ReDim columnList(countTables)
+'	
+'	Dim j as integer
+'	For j = 1 to countTables
+'		columnList(j) = TableInfo(j, TAB_INFO_NAME)
+'	Next	
+'End Sub
+
+Sub getColumnList(byval tbName as string)
+'	dim i, n,tp as smallint
+	Dim j, i, n as smallint
+	Dim colCount as smallint
+'	Dim sType,sCol as string
+	Dim sCol as string	
+	n = NumCols(tbName)
+	For i = 1 to n
+		If ColumnInfo(tbName, "COL" & Str$(i),COL_INFO_TYPE) = COL_TYPE_CHAR then
+			colCount = colCount + 1
+		End If
+	Next
+	
+	redim columnList(colCount)
+	i = 0
+	For j = 1 to n
+		sCol = "COL" & Str$(j)
+		If ColumnInfo(tbName,sCol,COL_INFO_TYPE)=COL_TYPE_CHAR then
+			i = i + 1
+			columnList(i) = ColumnInfo(tbName, sCol, COL_INFO_NAME)
+		End If		
+	Next
+end sub 
+
+function selectColumn(ByVal tbName as string) as integer
+	Call getColumnList(tbName)
+	Dim ColumnNum as string
+	
+	Dialog
+		Title "Разделение таблицы"
+		Width 199 Height 53
+		
+	Control StaticText
+		Position 8, 6
+		Width 182 Height 8
+		Title "Выберите строковое поле:"
+		
+	Control PopupMenu
+		Position 8, 16
+		Width 182
+		Title From Variable columnList
+		Into ColumnNum
+		
+	Control OKButton
+		Title "OK"
+		Position 139, 32
+		Width 51 Height 14
+	
+	if CommandInfo(CMD_INFO_DLG_OK) Then
+		selectColumn = ColumnInfo(tbName, columnList(ColumnNum), COL_INFO_NAME)
+	Else
+		End Program
+	End If
+End Function

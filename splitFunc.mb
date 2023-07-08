@@ -1,0 +1,24 @@
+include "defs.def"
+
+Sub SplitTable(ByVal initTable as String, ByVal tabColumn as String, ByVal charCount as Integer)
+	Run Command "SELECT Left$(" + tabColumn + ", " + charCount + ") ""aggr"" FROM " + initTable + " INTO tmp GROUP BY aggr Order By aggr"
+	
+	Fetch First From tmp
+'	
+	Dim colValue as String
+	Dim tableName as String
+	
+	Do While Not EOT(tmp)
+		colValue = tmp.col1
+		
+		tableName = SearchReplace(colValue)
+		Print tableName
+	
+		Run Command "Select * from " + initTable + " where " + tabColumn + " LIKE """ + colValue + "%"" INTO " + tableName
+		Run Command "Export " + tableName + " Into """ + tableName + ".mif"" Type ""MIF"""
+		
+		Run Command "Close Table " + tableName
+		
+		Fetch Next From tmp
+	Loop	
+End Sub

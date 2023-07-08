@@ -1,0 +1,48 @@
+include "defs.def"
+
+Declare Sub getTableList 
+
+Dim tableList() as String
+
+Sub getTableList
+	Dim countTables as integer
+	countTables = NumTables()
+	
+	ReDim tableList(countTables)
+	
+	Dim j as integer
+	For j = 1 to countTables
+		tableList(j) = TableInfo(j, TAB_INFO_NAME)
+	Next	
+End Sub
+
+function selectTable(ByVal tableType as string) as integer	
+	Call getTableList()
+	Dim TableNum as integer
+	
+	Dialog
+		Title "Разделение таблицы"
+		Width 199 Height 53
+		
+	Control StaticText
+		Position 8, 6
+		Width 182 Height 8
+		Title "Выберите " & tableType & ":"
+		
+	Control PopupMenu
+		Position 8, 16
+		Width 182
+		Title From Variable tableList
+		Into TableNum
+		
+	Control OKButton
+		Title "OK"
+		Position 139, 32
+		Width 51 Height 14
+	
+	if CommandInfo(CMD_INFO_DLG_OK) Then
+		selectTable = TableInfo(TableNum, TAB_INFO_NAME)
+	Else
+		End Program
+	End If
+End Function

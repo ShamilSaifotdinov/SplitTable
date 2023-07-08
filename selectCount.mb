@@ -1,0 +1,30 @@
+include "defs.def"
+
+function selectCount() as integer
+	Dim countValue as integer
+	
+	Dialog
+		Title "Разделение таблицы"
+		Width 199 Height 53
+		
+	Control StaticText
+		Position 8, 6
+		Width 182 Height 8
+		Title "Введите количество начальных символов для группировки:"
+	
+	Control EditText
+		Position 8, 16
+		Width 182 Height 17
+		Into countValue
+		
+	Control OKButton
+		Title "OK"
+		Position 139, 32
+		Width 51 Height 14
+	
+	if CommandInfo(CMD_INFO_DLG_OK) Then
+		selectCount = countValue
+	Else
+		End Program
+	End If
+End Function

@@ -1,0 +1,63 @@
+include "defs.def"
+
+Dim tableName as String
+
+Function SearchReplace(ByVal strInput as String) as String
+    Dim chr, out, nicechars as String
+    Dim i, l, intChr as Integer
+		
+	Dim intValue as integer
+	intValue = ASC(Left$(strInput,1))
+	If intValue > 47 and intValue < 58 then
+		tableName = "_" + strInput
+	Else tableName = strInput
+	End If
+
+    nicechars = "<>:""/\|?*"
+    l = Len(tableName)
+
+    For i = 1 to l
+        chr =  Mid$(tableName, i, 1)
+        intChr = ASC(chr)
+        If InStr(1, nicechars, chr) > 0 or (intChr >= 0 and intChr <= 31) Then
+            out = out + "_"
+ 		Else
+ 			out = out + chr
+        End If
+    Next
+
+    SearchReplace = out
+End Function
+
+'Function SearchReplace(ByVal strInput as String) as String
+
+'Dim iPos as Integer
+'Dim strOut as String
+'Dim i as Integer
+'
+'Dim strReplace as String
+'strReplace = ":"
+'Dim strReplacement as String
+'strReplacement = "_"
+'
+'    iPos = InStr(1, strInput, strReplace)
+'    If iPos < 1 then            '// nothing to replace, return original string
+'        SearchReplace = strInput
+'        Exit Function
+'    End If
+'
+'    While iPos > 0              '// loop until nothing left to replace
+'        If iPos > 1 then
+'            strOut = Left$(strInput, iPos - 1)
+'        End if
+'        strOut = strOut & strReplacement
+'        If iPos + Len(strReplace) - 1 < Len(strInput) then
+'            strOut = strOut & Mid$(strInput, iPos + Len(strReplace), Len(strInput) - (iPos + Len(strReplace)) + 1)
+'        End If
+'
+'        strInput = strOut
+'        iPos = InStr(iPos + 1, strInput, strReplace)
+'    Wend
+'
+'    SearchReplace = strOut
+'End Function

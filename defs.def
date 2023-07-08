@@ -1,0 +1,6 @@
+include "mapbasic.def"
+Declare Function selectTable(ByVal tableType as string) as integer
+Declare Function selectColumn(ByVal tbName as string) as integer
+Declare Function selectCount() as integer
+Declare Function SearchReplace(ByVal strInput as String) as String
+Declare Sub SplitTable(ByVal initTable as String, ByVal tabColumn as String, ByVal charCount as Integer)

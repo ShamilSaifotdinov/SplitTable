@@ -1,0 +1,8 @@
+[Link]
+Application = SplitTable.mbx
+Module = start.mbo
+Module = selectTable.mbo
+Module = selectColumn.mbo
+Module = selectCount.mbo
+Module = splitFunc.mbo
+Module = SearchReplace.mbo
